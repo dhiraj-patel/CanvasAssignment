@@ -8,17 +8,38 @@ function clearDaCanvas(){
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.beginPath();
 }
-var liner = function(e){
-    ctx.lineTo(e.offsetX,e.offsetY);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(e.offsetX,e.offsetY, 10, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.fillStyle = "#41f4ca";
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(e.offsetX,e.offsetY);
-} ;
 
-c.addEventListener("click",liner);
-stop.addEventListener("click",clearDaCanvas);
+var requestID;
+
+var animate = function(){
+    
+    // init params for dot draw
+    var radius = 25;
+    var xcor = 10;
+
+    var liner = function(e){
+	requestID = window.requestAnimationFrame( liner );
+	console.log(requestID);
+	ctx.lineTo(e.offsetX,e.offsetY);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(xcor,100, radius, 0, 2 * Math.PI);
+	ctx.stroke();
+	ctx.fillStyle = "#41f4ca";
+	ctx.fill();
+	xcor++;
+
+	ctx.beginPath();
+	ctx.moveTo(e.offsetX,e.offsetY);
+    } ;
+    liner();
+}
+
+
+var stopIt = function(){
+    console.log(requestID);
+    window.cancelAnimationFrame( requestID );
+}
+
+c.addEventListener("click",animate);
+stop.addEventListener("click",stopIt);
