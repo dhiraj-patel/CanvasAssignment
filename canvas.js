@@ -11,13 +11,14 @@ function clearDaCanvas(){
 
 var requestID;
 
-var animate = function(){
-    
+var animate = function(){ 
+    window.cancelAnimationFrame( requestID );   
     // init params for dot draw
     var radius = 25;
     var xcor = 10;
 
     var liner = function(e){
+	context.clearRect(0,0,canvas.width,canvas.height);
 	requestID = window.requestAnimationFrame( liner );
 	console.log(requestID);
 	ctx.lineTo(e.offsetX,e.offsetY);
